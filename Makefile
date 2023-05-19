@@ -30,7 +30,7 @@ TAREXT = tgz
 
 default: randall
 
-randall: randall.c
+randall: *.c
 	$(CC) $(CFLAGS) $@.c -o $@
 
 assignment: randall-assignment.$(TAREXT)
