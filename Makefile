@@ -51,3 +51,5 @@ repository-tarball:
 
 clean:
 	rm -f *.o *.$(TAREXT) randall
+check: randall
+	./$^ 10 | wc -c > temp; echo temp;
