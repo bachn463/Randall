@@ -1,1 +1,10 @@
 Bach Ngo Assignment 5
+
+Make the necessary .c and paired .h files of the following files:
+*these files, when made, simply take some methods and includes from randall.c. .c has the implmentation, .h has the prototypes. 
+cpu; where we pu the cpuid.h include and all matching cpu structs and methods
+rand64-sw; where we put all software methods under the comment header and add matching includes
+In rand64-sw.c, in the places where we call abort();, we can replace them with stderr error messages using fprintf and exiting our program with status 1.
+rand64-hw; where we put all hardware methods under the comment header and add matching includes
+mrand; implement init, rng, and fini methods
+implement a checkArguments function in options.c and its protoypes and argument struct in .h: loop through every argument and check if the arg flags are -i or -o or something else(error). You then loop through the aguments and check if they're properly formatted in their options, like -i *input* or -o *output*. If everything's good or our -o Nbytes is 0, we can return properly.
