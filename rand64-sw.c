@@ -6,9 +6,9 @@
 FILE *urandstream;
 
 /* Initialize the software rand64 implementation.  */
-void software_rand64_init (void)
+void software_rand64_init (char * filepath)
 {
-  urandstream = fopen ("/dev/random", "r");
+  urandstream = fopen (filepath, "r");
   if (! urandstream) {
     fprintf(stderr, "Invalid filepath: %s\n", filepath);
     exit(1);
@@ -30,4 +30,4 @@ unsigned long long software_rand64 (void)
 void software_rand64_fini (void)
 {
   fclose (urandstream);
-}}
+}

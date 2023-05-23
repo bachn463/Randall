@@ -1,6 +1,12 @@
-#include "options.h"
+#include "output.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
+#include <limits.h>
+
 
 bool writebytes (unsigned long long x, int nbytes)
 {
@@ -45,11 +51,11 @@ int tostdout(long long nbytes, unsigned long long (* rand64) (void)) {
   return !!output_errno;
 }
 
-int writeToN(long long nbutes, unsigned long long (* rand64) (void), long length) {
+int writeToN(long long nbytes, unsigned long long (* rand64) (void), long length) {
   long long writtenBytes = 0;
 
   while(writtenBytes < nbytes) {
-    int buffersz = min(length, nbytes - writtenBytes);
+    int buffersz = (length < nbytes - writtenBytes) ? length : nbytes - writtenBytes;//min(length, nbytes - writtenBytes);
     void* memToUse = malloc(buffersz);
     if(!memToUse) {
       fprintf(stderr, "Error in allocating buffer");
@@ -58,16 +64,17 @@ int writeToN(long long nbutes, unsigned long long (* rand64) (void), long length
 
     unsigned long long x;
     //fills every ULL'th size in the allocated buffer
-    for(int i = 0; i < buffersz / sizeof(x); i++) {
+    size_t i = 0;
+    for(i = 0; i < buffersz / sizeof(x); i++) {
       x = rand64();
-      memcpy(mem + i * sizeof(x), &x, size(x));
+      memcpy(memToUse + i * sizeof(x), &x, sizeof(x));
     }
     //fill the remaining buffer
     x = rand64();
-    memcpy(mem + i * sizeof(x), &x, buffersz % sizeof(x));
+    memcpy(memToUse + i * sizeof(x), &x, buffersz % sizeof(x));
     writtenBytes += buffersz;
-    fwrite(mem, 1, buffersz, stdout);
-    free(mem);
+    fwrite(memToUse, 1, buffersz, stdout);
+    free(memToUse);
   }
 
   return 0;

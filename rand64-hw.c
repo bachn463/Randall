@@ -1,4 +1,5 @@
-#include <rand64-hw.h>
+#include <immintrin.h>
+#include "rand64-hw.h"
 
 /* Initialize the hardware rand64 implementation.  */
 void

@@ -2,7 +2,7 @@
 #include <cpuid.h>
 
 /* Return information about the CPU.  See <http://wiki.osdev.org/CPUID>.  */
-static struct cpuid
+struct cpuid
 cpuid (unsigned int leaf, unsigned int subleaf)
 {
   struct cpuid result;
@@ -14,7 +14,7 @@ cpuid (unsigned int leaf, unsigned int subleaf)
 }
 
 /* Return true if the CPU supports the RDRAND instruction.  */
-static _Bool
+_Bool
 rdrand_supported (void)
 {
   struct cpuid extended = cpuid (1, 0);
