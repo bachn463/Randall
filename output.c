@@ -51,7 +51,7 @@ int tostdout(long long nbytes, unsigned long long (* rand64) (void)) {
   return !!output_errno;
 }
 
-int writeToN(long long nbytes, unsigned long long (* rand64) (void), long length) {
+int writeWithN(long long nbytes, unsigned long long (* rand64) (void), long length) {
   long long writtenBytes = 0;
 
   while(writtenBytes < nbytes) {
@@ -72,8 +72,8 @@ int writeToN(long long nbytes, unsigned long long (* rand64) (void), long length
     //fill the remaining buffer
     x = rand64();
     memcpy(memToUse + i * sizeof(x), &x, buffersz % sizeof(x));
-    writtenBytes += buffersz;
-    fwrite(memToUse, 1, buffersz, stdout);
+    int actuallyWritten = write(1, memToUse, buffersz);
+    writtenBytes += actuallyWritten;
     free(memToUse);
   }
 
