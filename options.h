@@ -4,7 +4,7 @@
 struct arguments {
   long long nbytes;
   char* output;
-  char* rand;
+  char* input;
 };
 
 struct arguments checkArguments(int argc, char** argv);

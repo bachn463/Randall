@@ -3,18 +3,18 @@
 #include <stdlib.h>
 
 //checks argumnents
-struct argumnets checkArguments(int argc, char** argv) {
+struct arguments checkArguments(int argc, char** argv) {
 
   long long nbytes = -1;
   int badargs = 0;
   int goodargs = 0;
-  char* rand = "rdrand";
+  char* input = "rdrand";
   char* output = "stdio";
 
   while(getopt(argc, argv, ":i:o") != -1) {
     int opt = getopt(argc, argv, ":i:o");
     if(opt == "i") {
-      rand = optarg;
+      input = optarg;
     } else if(opt == "o") {
       output = optarg;
     } else if(opt == ":") {
@@ -28,20 +28,18 @@ struct argumnets checkArguments(int argc, char** argv) {
 
 
   int i;
-  for(i = 0; i < argc; i++) {
+  for(i = 1; i < argc; i++) {
     if(argv[i][0] != "-" && argv[i - 1][0] != "-") {
       if(goodargs > 0) {
 	fprintf(stderr, "Too many arguments given\n");
 	badargs++;
 	break;
       }
-
-      nbytes = strtoll(argv[i], nullptr, 10);
+      char* endptr;
+      nbytes = strtoll(argv[i], endptr, 10);
       goodargs++;
     }
   }
-
-
 
   if(nbytes == 0)
     exit(0);
@@ -55,7 +53,7 @@ struct argumnets checkArguments(int argc, char** argv) {
   struct arguments res;
   res.nbytes = nbytes;
   res.output = output;
-  res.rand = res.rand;
+  res.input = input;
 
   return res;
 }
