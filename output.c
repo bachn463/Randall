@@ -55,7 +55,7 @@ int writeWithN(long long nbytes, unsigned long long (* rand64) (void), long leng
   long long writtenBytes = 0;
 
   while(writtenBytes < nbytes) {
-    int buffersz = (length < nbytes - writtenBytes) ? length : nbytes - writtenBytes;//min(length, nbytes - writtenBytes);
+    int buffersz = (length < nbytes - writtenBytes) ? length : nbytes - writtenBytes;
     void* memToUse = malloc(buffersz);
     if(!memToUse) {
       fprintf(stderr, "Error in allocating buffer");
