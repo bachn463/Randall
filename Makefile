@@ -52,4 +52,9 @@ repository-tarball:
 clean:
 	rm -f *.o *.$(TAREXT) randall
 check: randall
-	./$^ 10 | wc -c > temp; echo temp;
+	./$^ 10 | wc -c > temp; echo 10 | cmp temp > /dev/null; status=$$?; rm temp; echo $$status;
+	./$^ -o stdio -i /dev/urandom 2048 | wc -c > temp; echo 2048 | cmp temp > /dev/null; status=$$?; \
+rm temp; echo $$status;
+	./$^ -i /dev/urandom 10 | wc -c > temp; echo 10 | cmp temp > /dev/null; echo $$?; rm temp;
+	./$^ -o 1024 -i mrand48_r 10 | wc -c > temp; echo 10 | cmp temp > /dev/null; echo $$?; rm temp;
+	./$^ -o 1024 -i rdrand 2048 | wc -c > temp; echo 2048 | cmp temp > /dev/null; echo $$?; rm temp;
