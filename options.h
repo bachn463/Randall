@@ -7,7 +7,7 @@ struct arguments {
   char* input;
 };
 
-struct arguments checkArguments(int argc, char** argv);
+void  checkArguments(int argc, char** argv, struct arguments* res);
 
 
 #endif

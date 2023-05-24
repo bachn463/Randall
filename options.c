@@ -5,9 +5,7 @@
 #include <string.h>
 
 //checks argumnents
-struct arguments checkArguments(int argc, char** argv) {
-
-  
+void  checkArguments(int argc, char** argv, struct arguments* res) {  
   long long nbytes = -1;
   int badargs = 0;
   int goodargs = 0;
@@ -59,10 +57,10 @@ struct arguments checkArguments(int argc, char** argv) {
     exit(1);
   }
 
-  struct arguments res;
-  res.nbytes = nbytes;
-  res.output = output;
-  res.input = input;
+  //  struct arguments res;
+  res->nbytes = nbytes;
+  res->output = output;
+  res->input = input;
   
-  return res;
+  //  return res;
 }

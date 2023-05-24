@@ -43,7 +43,8 @@ int
 main (int argc, char **argv)
 {
   /* Check arguments.  */
-  struct arguments args = checkArguments(argc, argv);
+  struct arguments args;
+  checkArguments(argc, argv, &args);
   long long nbytes = args.nbytes;
   char* input = args.input; //rdrand, mrand48_r, or filepath
   char* output = args.output; //stdio or N
