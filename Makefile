@@ -51,10 +51,22 @@ repository-tarball:
 
 clean:
 	rm -f *.o *.$(TAREXT) randall
-check: randall
-	./$^ 10 | wc -c > temp; echo 10 | cmp temp > /dev/null; status=$$?; rm temp; echo $$status;
-	./$^ -o stdio -i /dev/urandom 2048 | wc -c > temp; echo 2048 | cmp temp > /dev/null; status=$$?; \
-rm temp; echo $$status;
-	./$^ -i /dev/urandom 10 | wc -c > temp; echo 10 | cmp temp > /dev/null; echo $$?; rm temp;
-	./$^ -o 1024 -i mrand48_r 10 | wc -c > temp; echo 10 | cmp temp > /dev/null; echo $$?; rm temp;
-	./$^ -o 1024 -i rdrand 2048 | wc -c > temp; echo 2048 | cmp temp > /dev/null; echo $$?; rm temp;
+check:
+	./randall 10 | wc -c | grep 10
+	./randall -o stdio -i /dev/urandom 2048 | wc -c | grep 2048
+	./randall -i /dev/urandom 10 | wc -c | grep 10
+	./randall -o 1024 -i mrand48_r 10 | wc -c | grep 10
+	./randall -o stdio -i mrand48_r 100 | wc -c | grep 100
+	./randall -o 1024 -i rdrand 128 | wc -c | grep 128
+	./randall -i mrand48_r 10 -o 1 | wc -c | grep 10
+	./randall -i mrand48_r 100 -o stdio | wc -c | grep 100
+	./randall -i rdrand 128 -o 16 | wc -c | grep 128
+	./randall -o 1024 -i rdrand 2048 | wc -c | grep 2048
+	./randall -o 1024 -i /dev/urandom 2048 | wc -c | grep 2048
+	./randall -i /dev/urandom 1024 -o 10 | wc -c | grep 1024
+	./randall -o stdio -i rdrand 4096 | wc -c | grep 4096
+	./randall 10000 | wc -c | grep 10000
+	./randall -o 256 -i rdrand 512 | wc -c | grep 512
+	./randall 10 -i /dev/urandom | wc -c | grep 10
+	./randall -o 2 32 | wc -c | grep 32
+	./randall -i rdrand 16 | wc -c | grep 16
