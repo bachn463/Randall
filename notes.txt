@@ -90,3 +90,39 @@ time ./randall -i /dev/urandom -o 1024 133562368 > /dev/null
 real	0m1.410s
 user	0m0.447s
 sys	0m0.955s
+
+time ./randall -o stdio -i /dev/urandom 133562368 >/dev/null
+
+real	0m3.050s
+user	0m1.705s
+sys	0m1.109s
+
+time ./randall -o stdio -i mrand48_r 133562368 >/dev/null
+
+real	0m1.853s
+user	0m1.686s
+sys	0m0.096s
+
+time ./randall -o stdio -i rdrand 133562368 >/dev/null
+
+real	0m4.606s
+user	0m3.699s
+sys	0m0.493s
+
+time ./randall -o 100 -i mrand48_r 133562368 >/dev/null
+
+real	0m1.567s
+user	0m0.982s
+sys	0m0.488s
+
+time ./randall -o 10 -i mrand48_r 133562368 >/dev/null
+
+real	0m10.385s
+user	0m6.213s
+sys	0m4.024s
+
+time ./randall -o 2 -i mrand48_r 133562368 >/dev/null
+
+real	0m51.482s
+user	0m26.663s
+sys	0m21.474s
