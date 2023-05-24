@@ -48,24 +48,6 @@ main (int argc, char **argv)
   char* input = args.input; //rdrand, mrand48_r, or filepath
   char* output = args.output; //stdio or N
   
-  /* bool valid = false;
-  long long nbytes;
-  if (argc == 2)
-    {
-      char *endptr;
-      errno = 0;
-      nbytes = strtoll (argv[1], &endptr, 10);
-      if (errno)
-	perror (argv[1]);
-      else
-	valid = !*endptr && 0 <= nbytes;
-    }
-  if (!valid)
-    {
-      fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);
-      return 1;
-    }
-  */
   /* If there's no work to do, don't worry about which library to use.  */
   if (nbytes == 0)
     return 0;
@@ -82,7 +64,7 @@ main (int argc, char **argv)
       rand64 = hardware_rand64;
       finalize = hardware_rand64_fini;
     } else {
-      fprintf(stderr, "rdrand is not supported on your machine");
+      fprintf(stderr, "rdrand is not supported on your CPU\n");
       exit(1);
     }
   } else if(strcmp(input, "mrand48_r") == 0) {
@@ -98,10 +80,9 @@ main (int argc, char **argv)
     exit(1);
   }
 
-  initialize(output);
-  //  int wordsize = sizeof rand64 ();
+  initialize(input);
   int output_errno = 0;
-  if(strcmp(output, "stdio") == 0) {
+  if(strcmp(output, "stdio") == 0) {//can also check if nbytes is -1/unchanged from checkArgs
     output_errno = tostdout(nbytes, rand64);
   } else {
     int n = strlen(output);
@@ -114,36 +95,16 @@ main (int argc, char **argv)
 
     char* endptr;
     long long outputN = strtoll(output, &endptr, 10);
-    output_errno = writeToN(nbytes, rand64, outputN);
+    if(!outputN) {
+      fprintf(stderr, "-o option must have a positive integer\n");
+      exit(1);
+    }
+    output_errno = writeWithN(nbytes, rand64, outputN);
   }
 
   finalize();
   return !!output_errno;
 
 
-  /*
-  do
-    {
-      unsigned long long x = rand64 ();
-      int outbytes = nbytes < wordsize ? nbytes : wordsize;
-      if (!writebytes (x, outbytes))
-	{
-	  output_errno = errno;
-	  break;
-	}
-      nbytes -= outbytes;
-    }
-  while (0 < nbytes);
 
-  if (fclose (stdout) != 0)
-    output_errno = errno;
-
-  if (output_errno)
-    {
-      errno = output_errno;
-      perror ("output");
-    }
-
-  finalize ();
-  return !!output_errno;*/
 }
