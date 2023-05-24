@@ -89,7 +89,7 @@ main (int argc, char **argv)
     int n = strlen(output);
     for(int i = 0; i < n; i++) {
       if(!isdigit(output[i])) {
-	fprintf(stderr, "-o option must have a positive integer\n");
+	fprintf(stderr, "-o option must have a natural number or stdio\n");
 	exit(1);
       }
     }
@@ -97,7 +97,7 @@ main (int argc, char **argv)
     char* endptr;
     long long outputN = strtoll(output, &endptr, 10);
     if(!outputN) {
-      fprintf(stderr, "-o option must have a positive integer\n");
+      fprintf(stderr, "-o option must have a natural number or stdio\n");
       exit(1);
     }
     output_errno = writeWithN(nbytes, rand64, outputN);
@@ -105,7 +105,4 @@ main (int argc, char **argv)
 
   finalize();
   return !!output_errno;
-
-
-
 }

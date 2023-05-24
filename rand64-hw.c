@@ -3,7 +3,7 @@
 
 /* Initialize the hardware rand64 implementation.  */
 void
-hardware_rand64_init (char* filepath)
+hardware_rand64_init ()
 {
 }
 

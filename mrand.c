@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-void mrand48_init(char* filepath) {}
+void mrand48_init() {
+}
 
 unsigned long long mrand48_rng(void) {
   struct drand48_data randbuffer;
@@ -20,4 +21,5 @@ unsigned long long mrand48_rng(void) {
   return (((unsigned long long) upper) << 32) | ((unsigned long long) lower);
 }
 
-void mrand48_fini(void) {}
+void mrand48_fini(void) {
+}

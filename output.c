@@ -74,7 +74,9 @@ int writeWithN(long long nbytes, unsigned long long (* rand64) (void), long leng
     memcpy(memToUse + i * sizeof(x), &x, buffersz % sizeof(x));
     int actuallyWritten = write(1, memToUse, buffersz);
     writtenBytes += actuallyWritten;
-    free(memToUse);
+    if(memToUse){
+      free(memToUse);
+    }
   }
 
   return 0;
